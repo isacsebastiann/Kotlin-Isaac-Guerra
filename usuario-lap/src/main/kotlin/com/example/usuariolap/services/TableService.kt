@@ -24,16 +24,40 @@ class TableService {
             throw ResponseStatusException(HttpStatus.NOT_FOUND,ex.message)
         }
     }
-    fun update(table: Table1): Table1{
+    fun update(table: Table1): Table1 {
         try {
             tableRepository.findById(table.id)
                 ?: throw Exception("ID no existe")
 
             return tableRepository.save(table)
+        } catch (ex: Exception) {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, ex.message)
+        }
+    }
+    fun updateName(table: Table1): Table1 {
+        try {
+            val response = tableRepository.findById(table.id)
+                ?: throw Exception("ID no existe")
+            response.apply {
+                description = table.description //un atributo del modelo
+            }
+            return tableRepository.save(response)
+        } catch (ex: Exception) {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, ex.message)
+        }
+    }
+    fun delete (id: Long?):Boolean?{
+        try{
+            val response = tableRepository.findById(id)
+                ?: throw Exception("ID no existe")
+            tableRepository.deleteById(id!!)
+            return true
         }
         catch (ex:Exception){
             throw ResponseStatusException(HttpStatus.NOT_FOUND,ex.message)
         }
     }
+
+
 }
 

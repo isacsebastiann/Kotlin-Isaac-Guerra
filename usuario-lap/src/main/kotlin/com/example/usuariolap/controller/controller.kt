@@ -44,7 +44,6 @@ class Controller {
     fun delete (@PathVariable("id") id: Long):Boolean?{
         return tableService.delete(id)
     }
-
 }
 
 
